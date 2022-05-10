@@ -26,7 +26,7 @@ void GameScene::Initialize() {
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	//デバッグカメラの作成
-	debugCamera_ = new DebugCamera(200, 300);
+	debugCamera_ = new DebugCamera(1280, 720);
 	//軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
@@ -69,7 +69,10 @@ void GameScene::Draw() {
 	//3Dモデル描画
 	//model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
-	PrimitiveDrawer::GetInstance()->DrawLine3d();
+	//ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
+	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 0,0,20 }, { 0,0,255,255 });
+	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 20,0,0 }, { 255,0,0,255 });
+	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 0,20,0 }, { 0,255,0,255 });
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
