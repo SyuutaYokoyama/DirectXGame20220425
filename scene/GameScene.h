@@ -59,7 +59,7 @@ class GameScene {
 	DebugCamera* debugCamera_ = nullptr;
 	//カメラ上方向の角度
 	float viewAngle = 0.0f;
-
+	float angle = 0.0f;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
