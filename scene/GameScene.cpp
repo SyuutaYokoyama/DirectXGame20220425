@@ -35,13 +35,13 @@ void GameScene::Initialize() {
 	//キャラクターの大元
 	worldTransforms_[PartId::kRoot].Initialize();
 	//脊髄
-	worldTransforms_[PartId::kSprine].Initialize();
-	worldTransforms_[PartId::kSprine].parent_ = &worldTransforms_[PartId::kRoot];
-	worldTransforms_[PartId::kSprine].translation_ = { 0,4.5f,0 };
+	worldTransforms_[PartId::kSpine].Initialize();
+	worldTransforms_[PartId::kSpine].parent_ = &worldTransforms_[PartId::kRoot];
+	worldTransforms_[PartId::kSpine].translation_ = { 0,4.5f,0 };
 	//上半身
 	//胸
 	worldTransforms_[PartId::kChest].Initialize();
-	worldTransforms_[PartId::kChest].parent_ = &worldTransforms_[PartId::kSprine];
+	worldTransforms_[PartId::kChest].parent_ = &worldTransforms_[PartId::kSpine];
 	worldTransforms_[PartId::kChest].translation_ = { 0,0,0 };
 	//頭
 	worldTransforms_[PartId::kHead].Initialize();
@@ -58,7 +58,7 @@ void GameScene::Initialize() {
 	//下半身
 	//尻
 	worldTransforms_[PartId::kHip].Initialize();
-	worldTransforms_[PartId::kHip].parent_ = &worldTransforms_[PartId::kSprine];
+	worldTransforms_[PartId::kHip].parent_ = &worldTransforms_[PartId::kSpine];
 	worldTransforms_[PartId::kHip].translation_ = { 0,-4.5f,0 };
 	//左足
 	//worldTransforms_[PartId::kHip].Initialize();
@@ -338,13 +338,13 @@ void GameScene::Update() //視点移動処理
 			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kRoot].matWorld_;
 		}
 		if (i == 2) {
-			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kSprine].matWorld_;
+			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kSpine].matWorld_;
 		}
 		if (i > 2 && i< 6) {
 			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kChest].matWorld_;
 		}
 		if (i == 6) {
-			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kSprine].matWorld_;
+			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kSpine].matWorld_;
 		}
 		if (i > 6 && i < kNumPartId) {
 			worldTransforms_[i].matWorld_ *= worldTransforms_[PartId::kHip].matWorld_;

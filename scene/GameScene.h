@@ -19,7 +19,7 @@ class GameScene {
   public: // メンバ関数
 	  enum PartId {
 		  kRoot,  //大元
-		  kSprine,//脊髄
+		  kSpine,//脊髄
 		  kChest, //胸
 		  kHead,  //頭
 		  kArmL,  //左腕
