@@ -36,6 +36,7 @@ public:
 	/// 攻撃
 	/// </summary>
 	void Attack();
+	Vector3 Velocity(Vector3 velocity,WorldTransform worldTransform_);
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

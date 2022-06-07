@@ -4,9 +4,8 @@
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
 #include <random>
-#include<Player.h>
 
-void PlayerBullet::Initialize(Model* model, const Vector3& position) {
+void PlayerBullet::Initialize(Model* model, const Vector3& position,const Vector3& velocity) {
 	//NULLポインタチェック
 	assert(model);
 
@@ -18,9 +17,18 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position) {
 
 	//引数で受け取った初期値をセット
 	worldTransform_.translation_ = position;
+
+	//引数で受け取った速度をメンバ変数に代入
+	velocity_ = velocity;
 }
 
 void PlayerBullet::Update() {
+	//座標を移動させる（フレーム分の移動量を足しこむ）
+	worldTransform_.translation_ += velocity_;
+	//時間経過でデス
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
 	//行列更新
 	Matrix4 matIdentity;
 	matIdentity.m[0][0] = 1;

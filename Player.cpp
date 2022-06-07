@@ -4,7 +4,13 @@
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
 #include <random>
-
+Vector3 Player::Velocity(Vector3 velocity, WorldTransform worldTransform_) {
+	Vector3 v;
+    v.x = velocity.x * worldTransform_.matWorld_.m[0][0] + velocity.y * worldTransform_.matWorld_.m[1][0] + velocity.z * worldTransform_.matWorld_.m[2][0];
+	v.y = velocity.x * worldTransform_.matWorld_.m[0][1] + velocity.y * worldTransform_.matWorld_.m[1][1] + velocity.z * worldTransform_.matWorld_.m[2][1];
+	v.z = velocity.x * worldTransform_.matWorld_.m[0][2] + velocity.y * worldTransform_.matWorld_.m[1][2] + velocity.z * worldTransform_.matWorld_.m[2][2];
+	return v;
+}
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチェック
 	assert(model);
@@ -24,6 +30,11 @@ void Player::Update() {
 	const float kEyeSpeed = 0.2f;
 	//上方向の回転速さ[ラジアン/frame]
 	const float kUpSpeed = 0.05f;
+
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+		});
 
 	//キーボード入力による移動処理
 	//押した方向で移動ベクトルを変更
@@ -139,16 +150,19 @@ void Player::Draw(ViewProjection viewProjection) {
 }
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
-
+		//弾の速度
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+		//速度ベクトルを自機の向きに合わせて回転させる
+		velocity = Velocity(velocity, worldTransform_);
 		//弾を生成し、初期化
 		std::unique_ptr<PlayerBullet>newBullet = std::make_unique<PlayerBullet>();
 		//PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 		//弾を登録する
 		//bullet_ = newBullet;
 		//bullet_.reset(newBullet);
 		bullets_.push_back(std::move(newBullet));
 	}
 }
-
 
