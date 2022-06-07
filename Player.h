@@ -11,6 +11,8 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "PlayerBullet.h"
+#include <memory>
+#include <list>
 
 /// <summary>
 /// 自キャラ
@@ -46,5 +48,7 @@ private:
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
 	//弾
-	PlayerBullet* bullet_ = nullptr;
+	//PlayerBullet* bullet_ = nullptr;
+	//std::unique_ptr<PlayerBullet> bullet_;
+	std::list<std::unique_ptr<PlayerBullet>>bullets_;
 };
