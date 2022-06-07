@@ -31,6 +31,9 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
+
+
+
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -176,7 +179,6 @@ void GameScene::Initialize() {
 void GameScene::Update() //視点移動処理
 {
 	player_->Update();
-	
 	//視点の移動ベクトル
 	//Vector3 move = { 0,0,0 };
 	////キャラクターの移動ベクトル
@@ -325,6 +327,8 @@ void GameScene::Update() //視点移動処理
 	//debugText_->Printf("nearZ:%f", viewProjection_.nearZ);
 	//debugText_->SetPos(50, 150);
 	//debugText_->Printf("Root:(%f,%f,%f)", worldTransforms_[PartId::kRoot].translation_.x, worldTransforms_[PartId::kRoot].translation_.y, worldTransforms_[PartId::kRoot].translation_.z);
+	//debugText_->SetPos(50, 150);
+	//debugText_->Printf("translation:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
 }
 
 void GameScene::Draw() {

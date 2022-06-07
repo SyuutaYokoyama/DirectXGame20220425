@@ -39,6 +39,17 @@ void Player::Update() {
 		move = { kEyeSpeed, 0,0, };
 	}
 
+	//上半身回転処理
+	{
+		//押した方向で移動ベクトルを変更
+		if (input_->PushKey(DIK_U)) {
+			worldTransform_.rotation_.y -= kUpSpeed;
+		}
+		else if (input_->PushKey(DIK_I)) {
+			worldTransform_.rotation_.y += kUpSpeed;
+		}
+	}
+
 	//座標移動(ベクトルの加算)
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
@@ -52,6 +63,14 @@ void Player::Update() {
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
+
+	//キャラクター攻撃処理
+	Attack();
+
+	//弾更新
+	if (bullet_) {
+		bullet_->Update();
+	}
 
 	//行列更新
 	Matrix4 matIdentity;
@@ -100,12 +119,25 @@ void Player::Update() {
 	worldTransform_.matWorld_ *= matTrans;
 	//行列転送
 	worldTransform_.TransferMatrix();
+
 	//デバッグテキスト
 	debugText_->SetPos(50, 150);
 	debugText_->Printf("translation:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
 }
 void Player::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_,viewProjection,textureHandle_);
+	if (bullet_) {
+		bullet_->Draw(viewProjection);
+	}
+}
+void Player::Attack() {
+	if (input_->PushKey(DIK_SPACE)) {
+		//弾を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+		//弾を登録する
+		bullet_ = newBullet;
+	}
 }
 
 
