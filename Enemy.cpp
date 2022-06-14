@@ -89,3 +89,16 @@ void Enemy::Update() {
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
+void Enemy::Approach(WorldTransform& worldTransform_, Vector3& EnemyApproachSpeed) {
+	//移動ベクトルを加算
+	worldTransform_.translation_ += EnemyApproachSpeed;
+	//規定の位置に到達したら離脱
+	if (worldTransform_.translation_.z < 0.0f) {
+		phase_ = Phase::Leave;
+	}
+}
+void Enemy::Leave(WorldTransform& worldTransform_, Vector3& EnemyLeaveSpeed) {
+	//移動（ベクトルを加算）
+	worldTransform_.translation_ += EnemyLeaveSpeed;
+	worldTransform_.translation_ += EnemyLeaveSpeed;
+}
