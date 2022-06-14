@@ -11,6 +11,7 @@ GameScene::~GameScene() {
 	delete model_;
 	delete debugCamera_;
 	delete player_;
+	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -31,8 +32,8 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
-
-
+	enemy_ = new Enemy();
+	enemy_->Initialize(model_, textureHandle_);
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -179,6 +180,7 @@ void GameScene::Initialize() {
 void GameScene::Update() //視点移動処理
 {
 	player_->Update();
+	enemy_->Update();
 	//視点の移動ベクトル
 	//Vector3 move = { 0,0,0 };
 	////キャラクターの移動ベクトル
@@ -364,6 +366,7 @@ void GameScene::Draw() {
 	//model_->Draw(worldTransform,viewProjection_/* debugCamera_->GetViewProjection()*/, textureHandle_);
 	//}
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 	//ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	//PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 0,0,20 }, { 0,0,255,255 });
 	//PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 20,0,0 }, { 255,0,0,255 });

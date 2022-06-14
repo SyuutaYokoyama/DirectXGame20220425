@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include"Player.h"
+#include"Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -79,4 +80,5 @@ class GameScene {
 	/// ゲームシーン用
 	/// </summary>
 	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
 };
