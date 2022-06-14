@@ -36,6 +36,8 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewProjection);
 	/// <summary>
+	void Approach(WorldTransform& worldTransform_, Vector3& EnemyApproachSpeed);
+	void Leave(WorldTransform& worldTransform_, Vector3& EnemyLraveSpeed);
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
