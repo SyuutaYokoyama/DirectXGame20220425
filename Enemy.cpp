@@ -22,9 +22,22 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = TextureManager::Load("black.png");
 }
 void Enemy::Update() {
-
+	//const float EnemyApproachSpeed =0.2f;
+	//const float EnemyLeaveSpeed = -0.2f;
+	
+	Vector3 EnemyApproachSpeed = {0,0,-0.2f};
+	Vector3 EnemyLeaveSpeed = { -0.1f,0.1f,0 };
+	switch (phase_) {
+	case Phase::Approach:
+	default:
+		Approach(worldTransform_, EnemyApproachSpeed);
+		break;
+	case Phase::Leave:
+		Leave(worldTransform_, EnemyLeaveSpeed);
+		break;
+	}
 	const float EnemySpeed = 0.2f;
-	worldTransform_.translation_ .z -= EnemySpeed;
+	//worldTransform_.translation_ .z -= EnemySpeed;
 	
 	//行列更新
 	Matrix4 matIdentity;
@@ -76,4 +89,17 @@ void Enemy::Update() {
 }
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+}
+void Enemy::Approach(WorldTransform& worldTransform_, Vector3& EnemyApproachSpeed) {
+	//移動ベクトルを加算
+	worldTransform_.translation_ += EnemyApproachSpeed;
+	//規定の位置に到達したら離脱
+	if (worldTransform_.translation_.z < 0.0f) {
+		phase_ = Phase::Leave;
+	}
+}
+void Enemy::Leave(WorldTransform& worldTransform_, Vector3& EnemyLeaveSpeed) {
+	//移動（ベクトルを加算）
+	worldTransform_.translation_ += EnemyLeaveSpeed;
+	worldTransform_.translation_ += EnemyLeaveSpeed;
 }

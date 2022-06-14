@@ -18,6 +18,10 @@
 /// 自キャラ
 /// </summary>
 class Enemy {
+	enum class Phase {
+		Approach, //接近する
+		Leave,    //離脱する
+	};
 public:
 	/// <summary>
 	/// 初期化
@@ -32,6 +36,8 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewProjection);
 	/// <summary>
+	void Approach(WorldTransform& worldTransform_, Vector3& EnemyApproachSpeed);
+	void Leave(WorldTransform& worldTransform_, Vector3& EnemyLraveSpeed);
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -43,6 +49,7 @@ private:
 	Input* input_ = nullptr;
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
-
+	//フェーズ
+	Phase phase_ = Phase::Approach;
 };
 
