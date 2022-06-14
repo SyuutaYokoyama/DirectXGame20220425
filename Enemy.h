@@ -43,6 +43,7 @@ private:
 	Input* input_ = nullptr;
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
-
+	//フェーズ
+	Phase phase_ = Phase::Approach;
 };
 
