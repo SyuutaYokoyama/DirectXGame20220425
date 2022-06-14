@@ -19,6 +19,10 @@
 /// </summary>
 class Enemy {
 public:
+	enum class Phase {
+		Approach, //Ú‹ß‚·‚é
+		Leave,    //—£’E‚·‚é
+	};
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
