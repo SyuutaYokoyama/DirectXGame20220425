@@ -22,9 +22,21 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = TextureManager::Load("black.png");
 }
 void Enemy::Update() {
-
+	Vector3 EnemyApproachSpeed = { 0,0,-0.2f };
+	Vector3 EnemyLeaveSpeed = { -0.1f,0.1f,0 };
+	switch (phase_) {
+	case Phase::Approach:
+	default:
+		Approach(worldTransform_, EnemyApproachSpeed);
+		break;
+	case Phase::Leave:
+		Leave(worldTransform_, EnemyLeaveSpeed);
+		break;
+	}
 	const float EnemySpeed = 0.2f;
-	worldTransform_.translation_ .z -= EnemySpeed;
+	//worldTransform_.translation_ .z -= EnemySpeed;
+	//const float EnemySpeed = 0.2f;
+	//worldTransform_.translation_ .z -= EnemySpeed;
 	
 	//çsóÒçXêV
 	Matrix4 matIdentity;
