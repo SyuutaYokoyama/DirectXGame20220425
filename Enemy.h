@@ -44,6 +44,5 @@ private:
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
 
-	
 };
 
