@@ -143,7 +143,7 @@ void Enemy::Fire() {
 	assert(player_);
 	//if (input_->TriggerKey(DIK_SPACE)) {
 		//’e‚Ì‘¬“x
-	const float kBulletSpeed = 1.0f;
+	const float kBulletSpeed = 0.5f;
 	Vector3 velocity(0, 0, -kBulletSpeed);
 	player_->GetWorldPosition();
 	GetWorldPosition();
@@ -153,7 +153,7 @@ void Enemy::Fire() {
 	};
 	float nagasa = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z);
 	velocity /= nagasa;
-	
+	velocity *= kBulletSpeed;
 		//’e‚ğ¶¬‚µA‰Šú‰»
 		std::unique_ptr<EnemyBullet>newEnemyBullet = std::make_unique<EnemyBullet>();
 		//PlayerBullet* newBullet = new PlayerBullet();
