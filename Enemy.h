@@ -45,6 +45,7 @@ public:
 	//接近フェーズ初期化
 	void ApproachInitialize();
 	Vector3 Velocity(Vector3 velocity, WorldTransform worldTransform_);
+	void SetPlayer(Player* player) { player_ = player; }
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -61,5 +62,8 @@ private:
 	std::list<std::unique_ptr<EnemyBullet>>EnemyBullets_;
 	//発射タイマー
 	int32_t FireCount = 0;
+	//自キャラ
+	Player* player_ = nullptr;
 };
-
+//自機クラスの前方宣言
+class Player;

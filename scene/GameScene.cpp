@@ -40,6 +40,8 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
+	enemy_->SetPlayer(player_);
+
 	//カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-50 };
 	//カメラ上方向ベクトルを設定（右45度指定）

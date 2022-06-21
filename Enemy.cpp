@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Player.h"
 #include "TextureManager.h"
 #include <cassert>
 #include "AxisIndicator.h"

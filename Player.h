@@ -37,6 +37,8 @@ public:
 	/// </summary>
 	void Attack();
 	Vector3 Velocity(Vector3 velocity,WorldTransform worldTransform_);
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
