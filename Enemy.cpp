@@ -12,6 +12,15 @@ Vector3 Enemy::Velocity(Vector3 velocity, WorldTransform worldTransform_) {
 	v.z = velocity.x * worldTransform_.matWorld_.m[0][2] + velocity.y * worldTransform_.matWorld_.m[1][2] + velocity.z * worldTransform_.matWorld_.m[2][2];
 	return v;
 }
+Vector3 Enemy::GetWorldPosition() {
+	//ワールド座標を入れる変数
+	Vector3 worldPos;
+	//ワールド行列の平行移動成分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
+}
 void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチェック
 	assert(model);
@@ -32,7 +41,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = TextureManager::Load("black.png");
 }
 void Enemy::Update() {
-	Vector3 EnemyApproachSpeed = { 0,0,-0.2f };
+	Vector3 EnemyApproachSpeed = { 0,0,-0.1f };
 	Vector3 EnemyLeaveSpeed = { -0.1f,0.1f,0 };
 	/*switch (phase_) {
 	case Phase::Approach:
@@ -43,7 +52,7 @@ void Enemy::Update() {
 		Leave(worldTransform_, EnemyLeaveSpeed);
 		break;
 	}*/
-	const float EnemySpeed = 0.2f;
+	const float EnemySpeed = 0.1f;
 	//worldTransform_.translation_ .z -= EnemySpeed;
 	//const float EnemySpeed = 0.2f;
 	worldTransform_.translation_ .z -= EnemySpeed;
@@ -131,11 +140,20 @@ void Enemy::Leave(WorldTransform& worldTransform_, Vector3& EnemyLeaveSpeed) {
 	worldTransform_.translation_ += EnemyLeaveSpeed;
 }
 void Enemy::Fire() {
+	assert(player_);
 	//if (input_->TriggerKey(DIK_SPACE)) {
 		//弾の速度
-		const float kBulletSpeed = 1.0f;
-		Vector3 velocity(0, 0, -kBulletSpeed);
-		
+	const float kBulletSpeed = 1.0f;
+	Vector3 velocity(0, 0, -kBulletSpeed);
+	player_->GetWorldPosition();
+	GetWorldPosition();
+	velocity = { player_->GetWorldPosition().x - GetWorldPosition().x
+		,player_->GetWorldPosition().y - GetWorldPosition().y
+		,player_->GetWorldPosition().z - GetWorldPosition().z
+	};
+	float nagasa = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z);
+	velocity /= nagasa;
+	
 		//弾を生成し、初期化
 		std::unique_ptr<EnemyBullet>newEnemyBullet = std::make_unique<EnemyBullet>();
 		//PlayerBullet* newBullet = new PlayerBullet();

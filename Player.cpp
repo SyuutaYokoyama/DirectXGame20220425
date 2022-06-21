@@ -11,13 +11,14 @@ Vector3 Player::Velocity(Vector3 velocity, WorldTransform worldTransform_) {
 	v.z = velocity.x * worldTransform_.matWorld_.m[0][2] + velocity.y * worldTransform_.matWorld_.m[1][2] + velocity.z * worldTransform_.matWorld_.m[2][2];
 	return v;
 }
-Vector3 GetWorldPosition() {
+Vector3 Player::GetWorldPosition() {
 	//ワールド座標を入れる変数
 	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得（ワールド座標）
-	worldPos.x = ;
-	worldPos.y = ;
-	worldPos.z = ;
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
 }
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチェック

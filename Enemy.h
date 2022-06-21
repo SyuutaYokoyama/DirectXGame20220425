@@ -14,6 +14,8 @@
 #include <memory>
 #include <list>
 
+//自機クラスの前方宣言
+class Player;
 /// <summary>
 /// 自キャラ
 /// </summary>
@@ -46,6 +48,8 @@ public:
 	void ApproachInitialize();
 	Vector3 Velocity(Vector3 velocity, WorldTransform worldTransform_);
 	void SetPlayer(Player* player) { player_ = player; }
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -65,5 +69,4 @@ private:
 	//自キャラ
 	Player* player_ = nullptr;
 };
-//自機クラスの前方宣言
-class Player;
+
