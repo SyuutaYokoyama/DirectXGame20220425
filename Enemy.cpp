@@ -32,7 +32,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	//初期化
 	worldTransform_.Initialize();
 	//初期座標
-	worldTransform_.translation_ = { 6.0f,0.0f,10.0f };
+	worldTransform_.translation_ = { 6.0f,0.0f,30.0f };
 	//弾を発射
 	//Fire();
 	//接近フェーズ初期化
@@ -55,7 +55,7 @@ void Enemy::Update() {
 	const float EnemySpeed = 0.1f;
 	//worldTransform_.translation_ .z -= EnemySpeed;
 	//const float EnemySpeed = 0.2f;
-	worldTransform_.translation_ .z -= EnemySpeed;
+	//worldTransform_.translation_ .z -= EnemySpeed;
 	Approach(worldTransform_, EnemyApproachSpeed);
 	EnemyBullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return bullet->IsDead();
@@ -168,3 +168,5 @@ void Enemy::ApproachInitialize() {
 	//発射タイマーを初期化
 	FireCount = kFireInterval;
 }
+void Enemy::OnCollition() {}
+

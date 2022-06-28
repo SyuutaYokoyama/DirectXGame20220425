@@ -130,59 +130,14 @@ void GameScene::Initialize() {
 	//}
 	//カメラ注視点座標を決定
 	//viewProjection_.target = { 10,0,0 };
-	/*Matrix4 matIdentity;
-	matIdentity.m[0][0] = 1;
-	matIdentity.m[1][1] = 1;
-	matIdentity.m[2][2] = 1;
-	matIdentity.m[3][3] = 1;
-
-	Matrix4 matScale = matIdentity;
-	matScale.m[0][0] = worldTransform_.scale_.x;
-	matScale.m[1][1] = worldTransform_.scale_.y;
-	matScale.m[2][2] = worldTransform_.scale_.z;
-	matScale.m[3][3] = 1;
-
-	Matrix4 matRotZ = matIdentity;
-	matRotZ.m[0][0] = cos(worldTransform_.rotation_.z);
-	matRotZ.m[0][1] = sin(worldTransform_.rotation_.z);
-	matRotZ.m[1][0] = -sin(worldTransform_.rotation_.z);
-	matRotZ.m[1][1] = cos(worldTransform_.rotation_.z);
-
-	Matrix4 matRotX = matIdentity;
-	matRotX.m[1][1] = cos(worldTransform_.rotation_.x);
-	matRotX.m[1][2] = sin(worldTransform_.rotation_.x);
-	matRotX.m[2][1] = -sin(worldTransform_.rotation_.x);
-	matRotX.m[2][2] = cos(worldTransform_.rotation_.x);
-
-	Matrix4 matRotY = matIdentity;
-	matRotY.m[0][0] = cos(worldTransform_.rotation_.y);
-	matRotY.m[0][2] = sin(worldTransform_.rotation_.y);
-	matRotY.m[2][0] = -sin(worldTransform_.rotation_.y);
-	matRotY.m[2][2] = cos(worldTransform_.rotation_.y);
-
-	Matrix4 matTrans = matIdentity;
-	matTrans.m[3][0] = worldTransform_.translation_.x;
-	matTrans.m[3][1] = worldTransform_.translation_.y;
-	matTrans.m[3][2] = worldTransform_.translation_.z;
-	matTrans.m[3][3] = 1;
-
-	worldTransform_.matWorld_ = matIdentity;
-	worldTransform_.matWorld_ *= matScale;
-
-	worldTransform_.matWorld_ *= matRotZ;
-	worldTransform_.matWorld_ *= matRotX;
-	worldTransform_.matWorld_ *= matRotY;
-
-	worldTransform_.matWorld_ *= matTrans;*/
-    //Matrix4 matScale;
 	
-	//worldTransform_.TransferMatrix();
 }
 
 void GameScene::Update() //視点移動処理
 {
 	player_->Update();
 	enemy_->Update();
+	CheckAllCollistions();
 	//視点の移動ベクトル
 	//Vector3 move = { 0,0,0 };
 	////キャラクターの移動ベクトル
@@ -391,5 +346,83 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
+#pragma endregion
+}
+void GameScene::CheckAllCollistions() {
+	//判定対象AとBの座標
+	Vector3 posA, posB;
+
+	//自弾リストの取得
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
+	//敵弾リストの取得
+	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetBullets();
+
+#pragma region 自キャラと敵弾の当たり判定
+	//自キャラの座標
+	posA = { player_->GetWorldPosition() };
+	//自キャラと敵弾すべての当たり判定
+	for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+		//敵弾の座標
+		posB = { bullet->GetWorldPosition() };
+
+		float r1 = 1.5f;
+		float r2 = 1.5f;
+		float x = (posA.x - posB.x) * (posA.x - posB.x);
+		float y = (posA.y - posB.y) * (posA.y - posB.y);
+		float z = (posA.z - posB.z) * (posA.z - posB.z);
+		//球と玉の交差判定
+		if ((x + y + z) <= (r1 + r2) * (r1 + r2)) {
+			//自キャラの衝突時コールバック関数を呼び出す
+			player_->OnCollition();
+			//敵弾の衝突時コールバック関数を呼び出す
+			bullet->OnCollition();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	//敵キャラの座標
+	posA = { enemy_->GetWorldPosition() };
+	//自弾と敵弾キャラの当たり判定
+	for (const std::unique_ptr<PlayerBullet>& PlayerBullet : playerBullets) {
+		//自弾の座標
+		posB = { PlayerBullet->GetWorldPosition() };
+
+		float r1 = 1.5f;
+		float r2 = 1.5f;
+		float x = (posA.x - posB.x) * (posA.x - posB.x);
+		float y = (posA.y - posB.y) * (posA.y - posB.y);
+		float z = (posA.z - posB.z) * (posA.z - posB.z);
+		//球と玉の交差判定
+		if ((x + y + z) <= (r1 + r2) * (r1 + r2)) {
+			//敵キャラの衝突時コールバック関数を呼び出す
+			enemy_->OnCollition();
+			//自弾の衝突時コールバック関数を呼び出す
+			PlayerBullet->OnCollition();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+	//自弾と敵弾キャラの当たり判定
+	for (const std::unique_ptr<PlayerBullet>& PlayerBullet : playerBullets) {
+		for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+			//自弾の座標
+			posA = { bullet->GetWorldPosition() };
+			posB = { PlayerBullet->GetWorldPosition() };
+			float r1 = 1.5f;
+			float r2 = 1.5f;
+			float x = (posA.x - posB.x) * (posA.x - posB.x);
+			float y = (posA.y - posB.y) * (posA.y - posB.y);
+			float z = (posA.z - posB.z) * (posA.z - posB.z);
+			//球と玉の交差判定
+			if ((x + y + z) <= (r1 + r2) * (r1 + r2)) {
+				//自弾の衝突時コールバック関数を呼び出す
+				PlayerBullet->OnCollition();
+				//敵弾の衝突時コールバック関数を呼び出す
+				bullet->OnCollition();
+			}
+		}
+	}
 #pragma endregion
 }

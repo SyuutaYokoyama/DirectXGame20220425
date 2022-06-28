@@ -35,6 +35,10 @@ public:
 	/// <param nname="viewProjection">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjection);
 	bool IsDead() const { return isDead_; }
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+	//衝突を検出したら呼び出されるコールバック関数
+	void OnCollition();
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

@@ -39,6 +39,10 @@ public:
 	Vector3 Velocity(Vector3 velocity,WorldTransform worldTransform_);
 	//ワールド座標を取得
 	Vector3 GetWorldPosition();
+	//衝突を検出したら呼び出されるコールバック関数
+	void OnCollition();
+	//弾リストを取得
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -54,4 +58,5 @@ private:
 	//PlayerBullet* bullet_ = nullptr;
 	//std::unique_ptr<PlayerBullet> bullet_;
 	std::list<std::unique_ptr<PlayerBullet>>bullets_;
+	
 };
