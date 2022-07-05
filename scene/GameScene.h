@@ -12,6 +12,7 @@
 #include "DebugCamera.h"
 #include"Player.h"
 #include"Enemy.h"
+#include"Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -70,8 +71,9 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 	//3Dモデル
 	Model* model_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 	//ワールドトランスフォーム
-	//WorldTransform worldTransform_;
+	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 	//デバッグカメラ
@@ -86,4 +88,5 @@ class GameScene {
 	/// </summary>
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
+	Skydome* skydome_ = nullptr;
 };
