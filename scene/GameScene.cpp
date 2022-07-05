@@ -9,10 +9,10 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete model_;
+	delete modelSkydome_;
 	delete debugCamera_;
 	delete player_;
 	delete enemy_;
-	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -36,6 +36,8 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_);
 	enemy_ = new Enemy();
 	enemy_->Initialize(model_, textureHandle_);
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_);
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -137,8 +139,10 @@ void GameScene::Initialize() {
 
 void GameScene::Update() //視点移動処理
 {
+	skydome_->Update();
 	player_->Update();
 	enemy_->Update();
+	//skydome_->Update();
 	CheckAllCollistions();
 	//視点の移動ベクトル
 	//Vector3 move = { 0,0,0 };
@@ -314,19 +318,19 @@ void GameScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-	//3Dモデル描画
-	skydome_->Draw(viewProjection_);
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//3Dモデル描画
-	//model_->Draw(viewProjection_);
+	//model_->Draw(viewProjection);
 	//for (WorldTransform& worldTransform : worldTransform_)
 	//{
 	//model_->Draw(worldTransform,viewProjection_/* debugCamera_->GetViewProjection()*/, textureHandle_);
 	//}
+	//3Dモデル描画
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 	//ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	//PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 0,0,20 }, { 0,0,255,255 });
 	//PrimitiveDrawer::GetInstance()->DrawLine3d({ 0,0,0 }, { 20,0,0 }, { 255,0,0,255 });
