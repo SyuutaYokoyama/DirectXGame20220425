@@ -58,5 +58,4 @@ private:
 	//PlayerBullet* bullet_ = nullptr;
 	//std::unique_ptr<PlayerBullet> bullet_;
 	std::list<std::unique_ptr<PlayerBullet>>bullets_;
-	
 };

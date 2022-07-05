@@ -174,5 +174,4 @@ void Player::Attack() {
 		bullets_.push_back(std::move(newBullet));
 	}
 }
-void Player::OnCollition(){}
-
+void Player::OnCollition() {}
