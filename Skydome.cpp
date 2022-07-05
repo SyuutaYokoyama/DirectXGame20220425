@@ -8,14 +8,16 @@ void Skydome::Initialize(Model* model) {
 	//NULLポインタチェック
 	assert(model);
 	model_ = model;
-	//初期化
-	worldTransform_.Initialize();
 	//初期座標
 	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+	worldTransform_.scale_ = { 35.0f,35.0f,35.0f };
+	//初期化
+	worldTransform_.Initialize();
 	//テクスチャ読み込み
 	//textureHandle_ = TextureManager::Load("skydome.png");
 }
 void Skydome::Update() {
+
 	Matrix4 matIdentity;
 	matIdentity.m[0][0] = 1;
 	matIdentity.m[1][1] = 1;
