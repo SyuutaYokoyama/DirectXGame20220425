@@ -30,6 +30,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	debugText_ = DebugText::GetInstance();
 
 	worldTransform_.Initialize();
+	worldTransform_.translation_.z = -20;
 
 }
 void Player::Update() {
@@ -140,6 +141,9 @@ void Player::Update() {
 	worldTransform_.matWorld_ *= matRotY;
 
 	worldTransform_.matWorld_ *= matTrans;
+
+	//worldTransform_.matWorld_ *= worldTransform_.parent_->matWorld_;
+
 	//s—ñ“]‘—
 	worldTransform_.TransferMatrix();
 

@@ -22,10 +22,11 @@ class Player;
 class Enemy {
 public:
 	//発射間隔
-	static const int kFireInterval = 15;
+	static const int kFireInterval = 100;
 	enum class Phase {
 		Approach, //接近する
 		Leave,    //離脱する
+		Dead,
 	};
 	/// <summary>
 	/// 初期化
@@ -50,13 +51,17 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	//ワールド座標を取得
 	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition2();
+	Vector3 GetWorldPosition3();
+	//
+	bool IsDead() const { return isDead_; }
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollition();
 	//弾リストを取得
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return EnemyBullets_; };
 private:
 	// ワールド変換データ
-	WorldTransform worldTransform_;
+	WorldTransform worldTransforms_[100];
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
@@ -72,6 +77,7 @@ private:
 	int32_t FireCount = 0;
 	//自キャラ
 	Player* player_ = nullptr;
-	
+	//デスフラグ
+	bool isDead_ = false;
 };
 

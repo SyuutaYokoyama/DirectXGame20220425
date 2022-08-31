@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "PlayerBullet.h"
+#include "RailCamera.h"
 #include <memory>
 #include <list>
 
@@ -39,10 +40,16 @@ public:
 	Vector3 Velocity(Vector3 velocity,WorldTransform worldTransform_);
 	//ワールド座標を取得
 	Vector3 GetWorldPosition();
+	//親子関係を結ぶセッター
+	/*void SetParent(WorldTransform* worldTransform) {
+		worldTransform_.parent_ = worldTransform;
+	}*/
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollition();
 	//弾リストを取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
+	//
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

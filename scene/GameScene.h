@@ -10,9 +10,10 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
-#include"Player.h"
-#include"Enemy.h"
-#include"Skydome.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -62,6 +63,9 @@ class GameScene {
   /// 衝突判定と応答
   /// </summary>
 	void CheckAllCollistions();
+
+	//const WorldTransform& GetWorldMatrix() { return worldTransforms_[100]; }
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -73,7 +77,7 @@ class GameScene {
 	Model* model_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	WorldTransform worldTransforms_[100];
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 	//デバッグカメラ
@@ -89,4 +93,7 @@ class GameScene {
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 	Skydome* skydome_ = nullptr;
+	//RailCamera* railcamera_ = nullptr;
+	std::unique_ptr<RailCamera> railcamera_;
+	
 };
