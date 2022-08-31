@@ -18,10 +18,10 @@ GameScene::~GameScene() {
 void GameScene::Initialize() {
 	
 	//ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("gray.png");
+	textureHandle_ = TextureManager::Load("metal2.png");
 	//3Dモデルの生成
 	model_ = Model::Create();
-	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	modelSkydome_ = Model::CreateFromOBJ("sky2", true);
 	//ワールドトランスフォームの初期化
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_);
@@ -58,7 +58,7 @@ void GameScene::Update() //視点移動処理
 	viewProjection_.TransferMatrix();
 	//デバック用表示
 	debugText_->SetPos(50, 50);
-	debugText_->Printf("eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+	//debugText_->Printf("eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 }
 
 void GameScene::Draw() {

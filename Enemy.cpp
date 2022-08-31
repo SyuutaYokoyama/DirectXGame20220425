@@ -55,20 +55,20 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 		worldTransforms_[i].Initialize();
 	}
 	//初期座標
-	worldTransforms_[0].translation_ = {18.0f,2.0f,10.0f};
-	worldTransforms_[1].translation_ = { 0.0f,6.0f,10.0f };
-	worldTransforms_[2].translation_ = { -18.0f,2.0f,10.0f };
+	worldTransforms_[0].translation_ = {18.0f,-4.0f,10.0f};
+	worldTransforms_[1].translation_ = { 0.0f,-4.0f,10.0f };
+	worldTransforms_[2].translation_ = { -18.0f,-4.0f,10.0f };
 	//弾を発射
 	//Fire();
 	//接近フェーズ初期化
 	ApproachInitialize();
 	//テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("red.png");
+	textureHandle_ = TextureManager::Load("redEnemy.png");
 }
 void Enemy::Update() {
-	Vector3 EnemyApproachSpeed = { 0,0.1f,0 };
-	Vector3 EnemyLeaveSpeed = { 0,0.1f,0 };
-	switch (phase_) {
+	Vector3 EnemyApproachSpeed = { 0,0,0 };
+	//Vector3 EnemyLeaveSpeed = { 0,0.1f,0 };
+	/*switch (phase_) {
 	case Phase::Approach:
 	default:
 		Approach(worldTransforms_[0], EnemyApproachSpeed);
@@ -80,7 +80,7 @@ void Enemy::Update() {
 		Leave(worldTransforms_[1], EnemyLeaveSpeed);
 		Leave(worldTransforms_[2], EnemyLeaveSpeed);
 		break;
-	}
+	}*/
 	const float EnemySpeed = 0.01f;
 	//worldTransform_.translation_ .z -= EnemySpeed;
 	//const float EnemySpeed = 0.2f;
